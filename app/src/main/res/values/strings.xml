@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">TheMovieDb</string>
+    <string name="popular_title">Popular ascending</string>
+    <string name="avg_title">Average ascending</string>
+    <string name="popular">popularity.desc</string>
+    <string name="defaulter">popularity.desc</string>
+    <string name="vote">vote_average.desc</string>
+    <string name="Specific_movie">Specific movie</string>
+    <string name="User_rating">User rating</string>
+    <string name="Overview">Overview</string>
+    <string name="Release_date">Release date</string>
+</resources>

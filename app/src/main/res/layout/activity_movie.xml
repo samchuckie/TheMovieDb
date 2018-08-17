@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Movie"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:paddingLeft="8dp"
+    android:paddingStart="8dp"
+    tools:ignore="RtlSymmetry">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        tools:text="Movie name"
+        android:textSize="24sp"
+        android:id="@+id/mn_tv"
+        android:textColor="@android:color/black"
+        android:gravity="center"
+        />
+
+    <ImageView
+        android:id="@+id/m_iv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:contentDescription="@string/Specific_movie"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="4dp"
+        android:baselineAligned="false">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/Release_date"
+                android:id="@+id/release_title"
+                android:textColor="@android:color/black"
+                tools:ignore="NestedWeights" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/rd_tv"
+                android:textColor="@android:color/black"
+
+                />
+        </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/User_rating"
+                    android:id="@+id/rating_title"
+                    android:textColor="@android:color/black"
+
+
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="0dp"
+                    android:id="@+id/ur_tv"
+                    android:textColor="@android:color/black"
+
+
+                    />
+
+            </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Overview"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/black"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ov_tv"
+        tools:text="This is an overview"
+        android:textColor="@android:color/black"
+
+
+        />
+
+</LinearLayout>
