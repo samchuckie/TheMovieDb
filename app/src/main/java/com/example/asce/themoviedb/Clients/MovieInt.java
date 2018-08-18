@@ -1,5 +1,6 @@
 package com.example.asce.themoviedb.Clients;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -9,6 +10,6 @@ public interface MovieInt {
     @GET("discover/movie")
     Call<Discover> discoverpage( @Query("sort_by") String sort_by,@Query("api_key") String apikey);
     @GET("movie/{movie_id}")
-    Call<MovieResult> specific_movie(@Path("movie_id" )int movie_id,@Query("api_key") String apikey);
+    Observable<MovieResult> specific_movie(@Path("movie_id" )int movie_id, @Query("api_key") String apikey);
 
 }
