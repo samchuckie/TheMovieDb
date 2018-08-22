@@ -10,6 +10,14 @@
     android:paddingLeft="8dp"
     android:paddingStart="8dp"
     tools:ignore="RtlSymmetry">
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/progress_barm"
+        android:indeterminate="true"
+        android:layout_margin="126dp"
+        tools:visibility="gone"
+        />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="40dp"

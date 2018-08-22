@@ -5,8 +5,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Moviedbclient {
-     static final String BASE_URL ="https://api.themoviedb.org/3/";
-    static Retrofit retrofit;
+    private static final String BASE_URL ="https://api.themoviedb.org/3/";
+    private static Retrofit retrofit;
     public static Retrofit getinstance(){
         if (retrofit == null){
             retrofit = new Retrofit.Builder().

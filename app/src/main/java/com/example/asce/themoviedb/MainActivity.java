@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.asce.themoviedb.Clients.Discover;
 import com.example.asce.themoviedb.Clients.MovieInt;
@@ -38,10 +39,12 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
     String api_key;
     String vote ;
     String popular;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        progressBar = findViewById(R.id.progress_bar);
         recyclerView =  findViewById(R.id.discover_rv);
         context = getApplicationContext();
         movieModel = new MovieModel();
@@ -55,12 +58,13 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
         discoverAdapter= new DiscoverAdapter(context,this );
         recyclerView.setAdapter(discoverAdapter);
         recyclerView.setLayoutManager(gridLayoutManager);
-        Call<Discover> discoverCall = movieInt.discoverpage( defaultpreference,api_key);
+        Call<Discover> discoverCall = movieInt.getmovies( defaultpreference,api_key);
         discoverCall.enqueue(new Callback<Discover>() {
             @Override
             public void onResponse(@NonNull Call<Discover> call, @NonNull Response<Discover> response) {
                 Discover discover = response.body();
                 assert discover != null;
+                progressBar.setVisibility(View.GONE);
                 List<Results> results = discover.getResults();
                 discoverAdapter.allitems(results);
 
@@ -90,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        progressBar.setVisibility(View.VISIBLE);
         int id =item.getItemId();
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if(!item.isChecked()) {
@@ -99,12 +104,13 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
                     editor.apply();
                     String pop = sharedPreferences.getString("Default", getResources().getString(R.string.defaulter));
                     item.setChecked(true);
-                    Call<Discover> popular = movieInt.discoverpage(pop, api_key);
+                    Call<Discover> popular = movieInt.getmovies(pop, api_key);
                     popular.enqueue(new Callback<Discover>() {
                         @Override
                         public void onResponse(@NonNull Call<Discover> call, @NonNull Response<Discover> response) {
                             Discover discover_response = response.body();
                             assert discover_response != null;
+                            progressBar.setVisibility(View.GONE);
                             List<Results> got = discover_response.getResults();
                             discoverAdapter.allitems(got);
                         }
@@ -121,12 +127,13 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
                     String voter = sharedPreferences.getString("Default", getResources().getString(R.string.defaulter));
                     Log.e("sam", "NEW default string is " + voter);
                     item.setChecked(true);
-                    Call<Discover> vote = movieInt.discoverpage(voter, api_key);
+                    Call<Discover> vote = movieInt.getmovies(voter, api_key);
                     vote.enqueue(new Callback<Discover>() {
                         @Override
                         public void onResponse(@NonNull Call<Discover> call, @NonNull Response<Discover> response) {
                             Discover discover_response = response.body();
                             assert discover_response != null;
+                            progressBar.setVisibility(View.GONE);
                             List<Results> got = discover_response.getResults();
                             discoverAdapter.allitems(got);
                         }
