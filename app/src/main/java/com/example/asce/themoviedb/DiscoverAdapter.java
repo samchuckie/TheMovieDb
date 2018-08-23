@@ -43,7 +43,7 @@ class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.ViewHolder>{
     @Override
     public int getItemCount() {
         if(results==null){
-            Log.e("sam", "issa null");
+            Log.e("sam", "null");
             return 0;
         }
         return results.size();

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TheMovieDb</string>
     <string name="popular_title">Popular</string>
-    <string name="avg_title">Top rated </string>
+    <string name="top_rated_title">Top rated </string>
     <string name="popular">popular</string>
     <string name="defaulter">popular</string>
     <string name="vote">top_rated</string>

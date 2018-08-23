@@ -38,13 +38,16 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
     SharedPreferences sharedPreferences;
     MovieInt movieInt;
     String defaultpreference;
-    String api_key,vote,popular;
+    String api_key,toprated,popular;
     ProgressBar progressBar;
     ConnectivityManager connectivityManager;
     Call<Discover> discoverCall;
     Callback<Discover> callback=new Callback<Discover>() {
         @Override
         public void onResponse(@NonNull Call<Discover> call, @NonNull Response<Discover> response) {
+            //When i log the raw response for both menu items it returns the correct url. i do not have vote_average in my code.
+            //My endpoints work
+            Log.e("sam" , "The raw url is " + response.raw());
             updates(response);
         }
         @Override
@@ -64,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         movieModel = new MovieModel();
         api_key = BuildConfig.ApiKey;
-        vote =getResources().getString(R.string.vote);
+        toprated =getResources().getString(R.string.vote);
         popular =getResources().getString(R.string.popular);
         gridLayoutManager = new GridLayoutManager(context,2);
         sharedPreferences =getPreferences(MODE_PRIVATE);
@@ -74,7 +77,11 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
         recyclerView.setAdapter(discoverAdapter);
         recyclerView.setLayoutManager(gridLayoutManager);
         if (networkInfo != null&& networkInfo.isConnected()) {
-            discoverCall = movieInt.getmovies( defaultpreference,api_key);
+            if(defaultpreference.equals(popular)){
+            discoverCall = movieInt.popular( api_key);}
+            else if(defaultpreference.equals(toprated)){
+                discoverCall = movieInt.toprated( api_key);
+            }
             discoverCall.enqueue(callback);
 
         }
@@ -89,8 +96,8 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu ,menu);
         // To set the default preferences and check them
-        if (defaultpreference.equals(vote)){
-            menu.findItem(R.id.vote).setChecked(true);
+        if (defaultpreference.equals(toprated)){
+            menu.findItem(R.id.top_rated).setChecked(true);
         }
         else if (defaultpreference.equals(popular)){
             menu.findItem(R.id.popular).setChecked(true);
@@ -108,18 +115,17 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
                 case (R.id.popular):
                     editor.putString("Default", popular);
                     editor.apply();
-                    String pop = sharedPreferences.getString("Default", getResources().getString(R.string.defaulter));
+                    //String pop = sharedPreferences.getString("Default", getResources().getString(R.string.defaulter));
                     item.setChecked(true);
-                    Call<Discover> popular = movieInt.getmovies(pop, api_key);
+                    Call<Discover> popular = movieInt.popular(api_key);
                     popular.enqueue(callback);
                     return true;
-                case (R.id.vote):
-                    editor.putString("Default", vote);
+                case (R.id.top_rated):
+                    editor.putString("Default", toprated);
                     editor.apply();
-                    String voter = sharedPreferences.getString("Default", getResources().getString(R.string.defaulter));
-                    Log.e("sam", "NEW default string is " + voter);
+//                    String voter = sharedPreferences.getString("Default", getResources().getString(R.string.defaulter));
                     item.setChecked(true);
-                    Call<Discover> vote = movieInt.getmovies(voter, api_key);
+                    Call<Discover> vote = movieInt.toprated(api_key);
                     vote.enqueue(callback);
                     return true;
             }

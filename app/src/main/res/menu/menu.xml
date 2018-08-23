@@ -9,8 +9,8 @@
 
         </item>
         <item
-            android:id="@+id/vote"
-            android:title="@string/avg_title"
+            android:id="@+id/top_rated"
+            android:title="@string/top_rated_title"
             >
 
         </item>
