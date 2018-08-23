@@ -13,6 +13,7 @@
         android:scaleType="centerCrop"
         android:contentDescription="@string/Specific_movie"
 
+
         />
 
 

@@ -10,12 +10,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.example.asce.themoviedb.Clients.MovieResult;
+import com.example.asce.themoviedb.Clients.Results;
 import com.squareup.picasso.Picasso;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import static com.example.asce.themoviedb.MovieModel.BASE_IMAGE_URL;
+
+import static com.example.asce.themoviedb.Constant.BASE_IMAGE_URL;
 
 public class Movie extends AppCompatActivity {
     public static final String MOVIE_ID="movie_id";
@@ -25,6 +27,8 @@ public class Movie extends AppCompatActivity {
     MovieModel movieModel;
     Disposable disposable;
     ProgressBar progressBar;
+    String api_key;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +42,12 @@ public class Movie extends AppCompatActivity {
         user_rating =findViewById(R.id.ur_tv);
         movieModel = new MovieModel();
         if(intent!=null && intent.hasExtra(MOVIE_ID)){
-            movie_id= intent.getIntExtra(MOVIE_ID, 0);
+            Results f = intent.getParcelableExtra(MOVIE_ID);
+            Log.e("sam" , "name is" + f.getPoster_path());
+            movie_id=f.getId();
         }
-        movieModel.getObserve(movie_id);
+        api_key = BuildConfig.ApiKey;;
+        movieModel.getObserve(movie_id,api_key);
         movieModel.setObserve()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

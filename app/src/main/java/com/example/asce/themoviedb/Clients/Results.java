@@ -1,8 +1,11 @@
 package com.example.asce.themoviedb.Clients;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Results {
+public class Results implements Parcelable {
     @SerializedName("poster_path")
     private String poster_path;
     public String getPoster_path() {
@@ -24,5 +27,33 @@ public class Results {
         this.id = id;
 
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.poster_path);
+        dest.writeInt(this.id);
+    }
+
+    protected Results(Parcel in) {
+        this.poster_path = in.readString();
+        this.id = in.readInt();
+    }
+
+    public static final Parcelable.Creator<Results> CREATOR = new Parcelable.Creator<Results>() {
+        @Override
+        public Results createFromParcel(Parcel source) {
+            return new Results(source);
+        }
+
+        @Override
+        public Results[] newArray(int size) {
+            return new Results[size];
+        }
+    };
 }
 

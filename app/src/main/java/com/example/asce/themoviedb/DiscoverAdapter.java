@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import static com.example.asce.themoviedb.MovieModel.BASE_IMAGE_URL;
+import static com.example.asce.themoviedb.Constant.BASE_IMAGE_URL;
 
 class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.ViewHolder>{
     private List<Results> results =null;
@@ -55,7 +55,7 @@ class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.ViewHolder>{
         notifyDataSetChanged();
     }
     public interface ItemClickListener {
-        void onItemClickListener(int itemId);
+        void onItemClickListener(Results results);
     }
 
 
@@ -70,7 +70,7 @@ class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.ViewHolder>{
 
         @Override
         public void onClick(View view) {
-            itemClickListener.onItemClickListener(results.get(getAdapterPosition()).getId());
+            itemClickListener.onItemClickListener(results.get(getAdapterPosition()));
 
         }
     }

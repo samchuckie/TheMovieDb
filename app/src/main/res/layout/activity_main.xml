@@ -14,6 +14,7 @@
         android:id="@+id/progress_bar"
         android:indeterminate="true"
         android:layout_margin="126dp"
+
         />
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
@@ -22,5 +23,6 @@
 
         >
     </android.support.v7.widget.RecyclerView>
+
 
 </LinearLayout>

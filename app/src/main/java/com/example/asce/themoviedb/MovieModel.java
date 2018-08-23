@@ -1,6 +1,8 @@
 package com.example.asce.themoviedb;
 
+import android.arch.core.BuildConfig;
 import android.arch.lifecycle.ViewModel;
+import android.support.annotation.NonNull;
 
 import com.example.asce.themoviedb.Clients.MovieInt;
 import com.example.asce.themoviedb.Clients.MovieResult;
@@ -9,9 +11,7 @@ import com.example.asce.themoviedb.Clients.Moviedbclient;
 import io.reactivex.Observable;
 
 
-
 class MovieModel extends ViewModel{
-    static final String BASE_IMAGE_URL ="https://image.tmdb.org/t/p";
     private Observable <MovieResult> observe;
     MovieResult value;
 
@@ -23,22 +23,14 @@ class MovieModel extends ViewModel{
         this.value = value;
     }
 
-
-
-    public Observable<MovieResult> setObserve() {
+    public @NonNull Observable<MovieResult> setObserve() {
         return observe;
 
     }
 
-    public String getApi_key() {
-        return "ac620851205365b46eddb0c519ccae57";
-    }
-
-    public void getObserve(int anInt) {
+    public void getObserve(int anInt,String api_key) {
         MovieInt movieInt = Moviedbclient.getinstance().create(MovieInt.class);
-        observe= movieInt.specific_movie(anInt,getApi_key());
-
-
+        observe= movieInt.specific_movie(anInt,api_key);
     }
 //    private Observer<? super MovieResult> movieobserver = new Observer<MovieResult>() {
 //        @Override

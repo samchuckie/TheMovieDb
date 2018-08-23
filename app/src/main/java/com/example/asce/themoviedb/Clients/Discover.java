@@ -1,17 +1,14 @@
 package com.example.asce.themoviedb.Clients;
 
-import com.google.gson.annotations.SerializedName;
-
+import android.os.Parcel;
+import android.os.Parcelable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Discover {
-    @SerializedName("page")
+public class Discover implements Parcelable {
     private int page;
-    @SerializedName("total_results")
     private int total_results;
-    @SerializedName("total_pages")
     private int total_pages;
-    @SerializedName("results")
     private List<Results> results ;
 
     public List<Results> getResults() {
@@ -41,4 +38,39 @@ public class Discover {
     public void setTotal_results(int total_results) {
         this.total_results = total_results;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.page);
+        dest.writeInt(this.total_results);
+        dest.writeInt(this.total_pages);
+        dest.writeList(this.results);
+    }
+
+
+
+    private Discover(Parcel in) {
+        this.page = in.readInt();
+        this.total_results = in.readInt();
+        this.total_pages = in.readInt();
+        this.results = new ArrayList<>();
+        in.readList(this.results, Results.class.getClassLoader());
+    }
+
+    public static final Creator<Discover> CREATOR = new Creator<Discover>() {
+        @Override
+        public Discover createFromParcel(Parcel source) {
+            return new Discover(source);
+        }
+
+        @Override
+        public Discover[] newArray(int size) {
+            return new Discover[size];
+        }
+    };
 }
