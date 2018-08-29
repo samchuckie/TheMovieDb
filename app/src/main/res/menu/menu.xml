@@ -12,7 +12,11 @@
             android:id="@+id/top_rated"
             android:title="@string/top_rated_title"
             >
-
+        </item>
+        <item
+            android:id="@+id/favourite"
+            android:title="@string/Favourites"
+            >
         </item>
     </group>
 

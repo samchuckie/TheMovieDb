@@ -4,9 +4,11 @@
     <string name="top_rated_title">Top rated </string>
     <string name="popular">popular</string>
     <string name="defaulter">popular</string>
-    <string name="vote">top_rated</string>
+    <string name="top_rated">top_rated</string>
     <string name="Specific_movie">Specific movie</string>
     <string name="User_rating">User rating</string>
     <string name="Overview">Overview</string>
     <string name="Release_date">Release date</string>
+    <string name="Favourites">Favourites</string>
+    <string name="Star">Starred</string>
 </resources>

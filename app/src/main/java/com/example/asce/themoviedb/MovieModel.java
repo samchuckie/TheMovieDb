@@ -1,6 +1,5 @@
 package com.example.asce.themoviedb;
 
-import android.arch.core.BuildConfig;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 
