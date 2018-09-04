@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="8dp"
 
     >
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/movieimage"
@@ -20,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_height="128dp" />
 
-    <ImageView
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/starring"
         android:layout_width="42dp"
         android:layout_height="37dp"
@@ -33,7 +37,8 @@
         app:layout_constraintVertical_bias="1.0"
         android:contentDescription="@string/Star"
         />
+    </android.support.constraint.ConstraintLayout>
 
 
 
-</android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

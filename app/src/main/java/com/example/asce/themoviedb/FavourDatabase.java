@@ -6,7 +6,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import com.example.asce.themoviedb.Clients.Results;
 
-@Database(entities = {Results.class},version = 2,exportSchema = false)
+@Database(entities = {Results.class},version = 3,exportSchema = false)
 public abstract class FavourDatabase extends RoomDatabase{
     private static FavourDatabase mFavourDatabase;
 

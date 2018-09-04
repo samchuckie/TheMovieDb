@@ -27,7 +27,12 @@ import com.example.asce.themoviedb.Clients.Discover;
 import com.example.asce.themoviedb.Clients.MovieInt;
 import com.example.asce.themoviedb.Clients.Moviedbclient;
 import com.example.asce.themoviedb.Clients.Results;
+import com.example.asce.themoviedb.Clients.ReviewResult;
+
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import static com.example.asce.themoviedb.Movie.MOVIE_ID;
 public class MainActivity extends AppCompatActivity implements DiscoverAdapter.ItemClickListener, DiscoverAdapter.StarredItemClickListener {
@@ -36,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
     DiscoverAdapter discoverAdapter;
     FavouriteAdapter favouriteAdapter;
     Context context;
-    MovieModel movieModel;
     SharedPreferences sharedPreferences;
     MovieInt movieInt;
     String defaultpreference;
@@ -56,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
         connectivityManager =(ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         assert connectivityManager != null;
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        movieModel = new MovieModel();
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         api_key = BuildConfig.ApiKey;
         toprated =getResources().getString(R.string.top_rated);
@@ -150,6 +153,29 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
         assert discover_response != null;
         progressBar.setVisibility(View.GONE);
         List<Results> got = discover_response.getResults();
+        int counter=0;
+        for(final Results results:got){
+            int id = results.getId();
+            counter++;
+            MovieInt movieInt= Moviedbclient.getinstance().create(MovieInt.class);
+            Call<ReviewResult> rr = movieInt.getreview(id ,BuildConfig.ApiKey);
+
+            rr.enqueue(new Callback<ReviewResult>() {
+                @Override
+                public void onResponse(Call<ReviewResult> call, Response<ReviewResult> response) {
+                    ReviewResult reviewResult = response.body();
+                    assert reviewResult != null;
+                    results.setReviews(reviewResult.getReviews());
+                    Log.e("sam" , "Calling for reviews");
+                }
+
+                @Override
+                public void onFailure(Call<ReviewResult> call, Throwable t) {
+
+                }
+            });
+        }
+
         discoverAdapter.allitems(got);
     }
     public void updateFavourite()
@@ -160,8 +186,8 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
             @Override
             public void onChanged(@Nullable List<Results> favours) {
                 assert favours != null;
-                progressBar.setVisibility(View.GONE);
                 favouriteAdapter.allitems(favours);
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
