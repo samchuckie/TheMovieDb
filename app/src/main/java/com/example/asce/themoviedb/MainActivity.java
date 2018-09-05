@@ -2,6 +2,7 @@ package com.example.asce.themoviedb;
 
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
     ProgressBar progressBar;
     ConnectivityManager connectivityManager;
     MainViewModel mainViewModel;
-    LiveData<Response<Discover>> response;
+    MutableLiveData<List<Results>> response;
     LiveData<List<Results>> favourLiveData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +74,9 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
         favouriteAdapter = new FavouriteAdapter(context,this,this);
         recyclerView.setLayoutManager(gridLayoutManager);
         response = mainViewModel.getResponseLiveData();
-        response.observe(this, new Observer<Response<Discover>>() {
+        response.observe(this, new Observer<List<Results>>() {
             @Override
-            public void onChanged(@Nullable Response<Discover> discoverResponse) {
+            public void onChanged(@Nullable List<Results> discoverResponse) {
                 assert discoverResponse != null;
                 updates(discoverResponse);
             }
@@ -147,36 +148,10 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
         intent.putExtra(MOVIE_ID,results);
         startActivity(intent);
     }
-    public void updates(@NonNull Response<Discover> response){
-        Discover discover_response = response.body();
+    public void updates(@NonNull List<Results> response){
         recyclerView.setAdapter(discoverAdapter);
-        assert discover_response != null;
         progressBar.setVisibility(View.GONE);
-        List<Results> got = discover_response.getResults();
-        int counter=0;
-        for(final Results results:got){
-            int id = results.getId();
-            counter++;
-            MovieInt movieInt= Moviedbclient.getinstance().create(MovieInt.class);
-            Call<ReviewResult> rr = movieInt.getreview(id ,BuildConfig.ApiKey);
-
-            rr.enqueue(new Callback<ReviewResult>() {
-                @Override
-                public void onResponse(Call<ReviewResult> call, Response<ReviewResult> response) {
-                    ReviewResult reviewResult = response.body();
-                    assert reviewResult != null;
-                    results.setReviews(reviewResult.getReviews());
-                    Log.e("sam" , "Calling for reviews");
-                }
-
-                @Override
-                public void onFailure(Call<ReviewResult> call, Throwable t) {
-
-                }
-            });
-        }
-
-        discoverAdapter.allitems(got);
+        discoverAdapter.allitems(response);
     }
     public void updateFavourite()
     {

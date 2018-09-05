@@ -7,16 +7,14 @@ import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import com.example.asce.themoviedb.Clients.Discover;
+
 import com.example.asce.themoviedb.Clients.Results;
 import java.util.List;
-
-import retrofit2.Response;
 
 public class MainViewModel extends AndroidViewModel {
     private String apikey;
     private MainModel mainModel;
-    public MutableLiveData<Response<Discover>> getResponseLiveData() {
+    public MutableLiveData<List<Results>> getResponseLiveData() {
         Log.e("sam","getting responces ");
         return mainModel.getResponses();
     }
@@ -27,10 +25,16 @@ public class MainViewModel extends AndroidViewModel {
         mainModel= new MainModel();
     }
     public void getPopular(){
-        mainModel.getPopular(apikey);
+        if(getResponseLiveData().getValue()==null)
+        {
+            mainModel.getPopular(apikey);
+        }
     }
     public void getToprated(){
-        mainModel.getToprated(apikey);
+        if(getResponseLiveData().getValue() == null){
+            mainModel.getToprated(apikey);
+        }
+
     }
     public LiveData<List<Results>> getFavourite(Context application){
         if(favourite==null){
