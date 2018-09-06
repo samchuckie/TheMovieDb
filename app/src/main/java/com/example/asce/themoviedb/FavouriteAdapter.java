@@ -22,11 +22,11 @@ class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder>
     private List<Results> favourite_list =null;
     private Context context;
     private DiscoverAdapter.ItemClickListener itemClickListener;
-    private DiscoverAdapter.StarredItemClickListener starredItemClickListener;
+    private unStarredItemClickListener unstarredItemClickListener;
 
-    FavouriteAdapter(Context context, DiscoverAdapter.ItemClickListener itemClickListener, DiscoverAdapter.StarredItemClickListener starredItemClickListener)  {
+    FavouriteAdapter(Context context, DiscoverAdapter.ItemClickListener itemClickListener, unStarredItemClickListener unstarredItemClickListener)  {
         this.itemClickListener=itemClickListener;
-        this.starredItemClickListener =starredItemClickListener;
+        this.unstarredItemClickListener =unstarredItemClickListener;
         this.context = context;
     }
     @NonNull
@@ -58,20 +58,17 @@ class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder>
         notifyDataSetChanged();
     }
 
-
-    public interface ItemClickListener {
-        void onItemClickListener(Results results);
-    }
-    public interface StarredItemClickListener {
-        void onStarredItemClickListener(Results results);
+    public interface unStarredItemClickListener {
+        void onunStarredItemClickListener(Results results);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final View.OnClickListener starred = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("sam", "clicked on starred");
-                starredItemClickListener.onStarredItemClickListener(favourite_list.get(getAdapterPosition()));
+                Log.e("sam", "deleted an item");
+                // TODO USE DIALOG
+                unstarredItemClickListener.onunStarredItemClickListener(favourite_list.get(getAdapterPosition()));
             }
         };
         ImageView imageView;
@@ -87,6 +84,7 @@ class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder>
 
         @Override
         public void onClick(View view) {
+            itemClickListener.onItemClickListener(favourite_list.get(getAdapterPosition()));
 
         }
     }

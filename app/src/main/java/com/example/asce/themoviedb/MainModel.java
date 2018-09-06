@@ -42,10 +42,8 @@ public class MainModel {
                     gotten.setReviews(reviewResult.getReviews());
                     Log.e("sam" , "Calling for reviews" + gotten.getOriginal_title());
                 }
-
                 @Override
                 public void onFailure(@NonNull Call<ReviewResult> call, @NonNull Throwable t) {
-
                 }
             });
             }

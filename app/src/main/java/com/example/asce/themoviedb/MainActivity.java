@@ -24,19 +24,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import com.example.asce.themoviedb.Clients.Discover;
 import com.example.asce.themoviedb.Clients.MovieInt;
 import com.example.asce.themoviedb.Clients.Moviedbclient;
 import com.example.asce.themoviedb.Clients.Results;
-import com.example.asce.themoviedb.Clients.ReviewResult;
-
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import static com.example.asce.themoviedb.Movie.MOVIE_ID;
-public class MainActivity extends AppCompatActivity implements DiscoverAdapter.ItemClickListener, DiscoverAdapter.StarredItemClickListener {
+
+public class MainActivity extends AppCompatActivity implements DiscoverAdapter.ItemClickListener, DiscoverAdapter.StarredItemClickListener, FavouriteAdapter.unStarredItemClickListener {
     RecyclerView recyclerView;
     GridLayoutManager gridLayoutManager;
     DiscoverAdapter discoverAdapter;
@@ -78,10 +72,12 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
             @Override
             public void onChanged(@Nullable List<Results> discoverResponse) {
                 assert discoverResponse != null;
+                Log.e("sam" , "observing");
                 updates(discoverResponse);
             }
         });
         if(defaultpreference.equals(favourite_pref)){
+            Log.e("sam" , "favourite is the preference");
             updateFavourite();
         }
         if (networkInfo != null&& networkInfo.isConnected()) {
@@ -91,11 +87,16 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
                 if(defaultpreference.equals(toprated)){
                 mainViewModel.getToprated();
             }
+            else
+                if(defaultpreference.equals(favourite_pref)){
+                updateFavourite();
+                }
         }
         else {
             progressBar.setVisibility(View.GONE);
             Toast.makeText(this,"No internet connectivty" ,Toast.LENGTH_LONG).show();
         }
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -124,13 +125,13 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
                     editor.putString("Default", popular);
                     editor.apply();
                     item.setChecked(true);
-                    mainViewModel.getPopular();
+                    mainViewModel.getPopular("change");
                     return true;
                 case (R.id.top_rated):
                     editor.putString("Default", toprated);
                     editor.apply();
                     item.setChecked(true);
-                    mainViewModel.getToprated();
+                    mainViewModel.getToprated("change");
                     return true;
                 case(R.id.favourite):
                     editor.putString("Default", favourite_pref);
@@ -170,6 +171,12 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
     public void onStarredItemClickListener(Results results) {
         new favouritesAsync(context).execute(results);
     }
+
+    @Override
+    public void onunStarredItemClickListener(Results results) {
+        new deleteResult(context).execute(results);
+    }
+
     @SuppressLint("StaticFieldLeak")
     private static class favouritesAsync extends AsyncTask<Results,Void,Void>{
         FavourDao favouritesDao;
@@ -180,6 +187,19 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
         protected Void doInBackground(Results... results) {
             Log.e("sam" , "background process");
             favouritesDao.insertResult(results[0]);
+            return null;
+        }
+    }
+    @SuppressLint("StaticFieldLeak")
+    private static class deleteResult extends AsyncTask<Results,Void,Void>{
+        FavourDao favouritesDao;
+        deleteResult(Context context) {
+            favouritesDao = FavourDatabase.getmFavourDatabase(context).favourDao();
+        }
+        @Override
+        protected Void doInBackground(Results... results) {
+            Log.e("sam" , "background process");
+            favouritesDao.deletefavourite(results[0]);
             return null;
         }
     }

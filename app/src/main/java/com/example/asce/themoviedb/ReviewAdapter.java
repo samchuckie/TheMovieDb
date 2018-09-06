@@ -22,7 +22,7 @@ class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.author.setText(reviews.get(position).getAuthor());
-        holder.movie_reviews.setText(reviews.get(position).getContent());
+//        holder.movie_reviews.setText(reviews.get(position).getContent());
 
     }
 
@@ -40,9 +40,9 @@ class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder>{
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         TextView author,movie_reviews;
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             author= itemView.findViewById(R.id.author);
             movie_reviews = itemView.findViewById(R.id.movie_content);

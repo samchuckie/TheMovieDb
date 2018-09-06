@@ -14,6 +14,7 @@ import java.util.List;
 public class MainViewModel extends AndroidViewModel {
     private String apikey;
     private MainModel mainModel;
+    String model_preference="";
     public MutableLiveData<List<Results>> getResponseLiveData() {
         Log.e("sam","getting responces ");
         return mainModel.getResponses();
@@ -25,6 +26,8 @@ public class MainViewModel extends AndroidViewModel {
         mainModel= new MainModel();
     }
     public void getPopular(){
+        //checks to see if a responce was already gotten. if there was a responce then the adapter will use the same data
+        //from the viewmodel and no networl call made
         if(getResponseLiveData().getValue()==null)
         {
             mainModel.getPopular(apikey);
@@ -39,7 +42,15 @@ public class MainViewModel extends AndroidViewModel {
     public LiveData<List<Results>> getFavourite(Context application){
         if(favourite==null){
             favourite =mainModel.getFavourLiveData(application);
-            Log.e("sam", "making a call everytime");
+            Log.e("sam", "making a database call everytime");
         }
         return favourite;    }
+
+    public void getToprated(String change) {
+        mainModel.getToprated(apikey);
+    }
+
+    public void getPopular(String change) {
+        mainModel.getPopular(apikey);
+    }
 }
