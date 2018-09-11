@@ -173,8 +173,11 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
     }
 
     @Override
-    public void onunStarredItemClickListener(Results results) {
-        new deleteResult(context).execute(results);
+    public void onunStarredItemClickListener(final Results results) {
+            Delete_frag delete_frag= new Delete_frag();
+            delete_frag.getResults(results);
+            delete_frag.show(getSupportFragmentManager(),"Delete");
+            favouriteAdapter.notifyDataSetChanged();
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -187,19 +190,6 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
         protected Void doInBackground(Results... results) {
             Log.e("sam" , "background process");
             favouritesDao.insertResult(results[0]);
-            return null;
-        }
-    }
-    @SuppressLint("StaticFieldLeak")
-    private static class deleteResult extends AsyncTask<Results,Void,Void>{
-        FavourDao favouritesDao;
-        deleteResult(Context context) {
-            favouritesDao = FavourDatabase.getmFavourDatabase(context).favourDao();
-        }
-        @Override
-        protected Void doInBackground(Results... results) {
-            Log.e("sam" , "background process");
-            favouritesDao.deletefavourite(results[0]);
             return null;
         }
     }

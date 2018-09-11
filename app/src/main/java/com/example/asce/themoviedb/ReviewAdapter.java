@@ -12,17 +12,19 @@ import java.util.List;
 class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder>{
     private List<Reviews> reviews = null;
 
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.reviewitems , parent,false);
         return new ViewHolder(view);
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.movie_reviews.setText(reviews.get(position).getContent());
         holder.author.setText(reviews.get(position).getAuthor());
-//        holder.movie_reviews.setText(reviews.get(position).getContent());
 
     }
 
@@ -40,12 +42,18 @@ class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder>{
         notifyDataSetChanged();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView author,movie_reviews;
         ViewHolder(View itemView) {
             super(itemView);
             author= itemView.findViewById(R.id.author);
             movie_reviews = itemView.findViewById(R.id.movie_content);
+            itemView.setOnClickListener(this);
+        }
+        @Override
+        public void onClick(View view) {
+            movie_reviews.setVisibility(View.VISIBLE);
+            author.setVisibility(View.VISIBLE);
         }
     }
 }

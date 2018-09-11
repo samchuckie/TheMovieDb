@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,18 +25,18 @@ public class Movie extends AppCompatActivity {
     public static final String MOVIE_ID="movie_id";
     TextView overview ,original_title,release_date,user_rating;
     ImageView imageView;
-    ProgressBar progressBar;
     String api_key,original_title_tx,overview_tx,release_date_tx,poster_path;
     Double user_rating_tx;
-    RecyclerView recyclerView;
+    RecyclerView recyclerView,trailer_rv;
     LinearLayoutManager linearLayoutManager;
+    LinearLayoutManager trailer_manger;
     ReviewAdapter reviewAdapter;
+    TrailerAdapter trailerAdapter ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
-        progressBar =findViewById(R.id.progress_barm);
         Intent intent =getIntent();
         imageView =findViewById(R.id.m_iv);
         overview =findViewById(R.id.ov_tv);
@@ -43,10 +44,14 @@ public class Movie extends AppCompatActivity {
         release_date =findViewById(R.id.rd_tv);
         user_rating =findViewById(R.id.ur_tv);
         recyclerView = findViewById(R.id.review_rv);
+        trailer_rv =findViewById(R.id.youtube_rv);
         reviewAdapter = new ReviewAdapter();
         linearLayoutManager= new LinearLayoutManager(this);
+        trailer_manger= new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(reviewAdapter);
+        trailer_rv.setLayoutManager(trailer_manger);
+        trailer_rv.setAdapter(trailerAdapter);
         if(intent!=null && intent.hasExtra(MOVIE_ID)){
             Results results = intent.getParcelableExtra(MOVIE_ID);
             Log.e("sam" , "name is" + results.getOriginal_title());
@@ -60,11 +65,10 @@ public class Movie extends AppCompatActivity {
         user_rating_tx =results.getVote_average();
         release_date_tx=results.getRelease_date();
         poster_path=results.getPoster_path();
-        // TODO MOVE PROGRESS TO THE END
-        progressBar.setVisibility(View.GONE);
         Uri uri= Uri.parse(BASE_IMAGE_URL + "/w500/" + poster_path);
         Picasso.get().load(uri).fit()
                 .into(imageView);
+
         overview.setText(overview_tx);
         original_title.setText(original_title_tx);
         user_rating.setText(new StringBuilder().append(String.valueOf(user_rating_tx)).append("/10").toString());
@@ -74,15 +78,10 @@ public class Movie extends AppCompatActivity {
             Log.e("sam", "the reviews for non null " + reviewsmade.size());
             reviewAdapter.setreviews(reviewsmade);
         }
-        else
-        {
-            Log.e("sam", "the reviews for  null " + reviewsmade.size());
-        }
     }
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
     }
 }
+// TODO MAKE THE ICON FOR WHEN A REVIEW IS NOT CLICKED TO BE DOWNWARDS. ONCLICK UPWARDS

@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    tools:scrollY="150dp"
     tools:context=".Movie"
     android:orientation="vertical"
     android:background="@android:color/white"
     android:paddingLeft="8dp"
     android:paddingStart="8dp"
     tools:ignore="RtlSymmetry">
-    <ProgressBar
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/progress_barm"
-        android:indeterminate="true"
-        android:layout_margin="126dp"
-        tools:visibility="gone"
-        />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -28,12 +27,10 @@
         android:gravity="center"
 
         />
-
     <ImageView
         android:id="@+id/m_iv"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_height="300dp"
         android:contentDescription="@string/Specific_movie"
         />
     <LinearLayout
@@ -111,9 +108,14 @@
         android:id="@+id/ov_tv"
         tools:text="This is an overview"
         android:textColor="@android:color/black"
-
-
         />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Reviews"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            />
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -121,6 +123,20 @@
         >
 
     </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Trailers"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            />
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/youtube_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-</LinearLayout>
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

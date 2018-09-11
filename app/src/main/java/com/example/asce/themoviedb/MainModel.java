@@ -10,6 +10,9 @@ import com.example.asce.themoviedb.Clients.MovieInt;
 import com.example.asce.themoviedb.Clients.Moviedbclient;
 import com.example.asce.themoviedb.Clients.Results;
 import com.example.asce.themoviedb.Clients.ReviewResult;
+import com.example.asce.themoviedb.Clients.TrailerInt;
+import com.example.asce.themoviedb.Clients.VideoResults;
+import com.example.asce.themoviedb.Clients.Videos;
 
 import java.util.List;
 
@@ -19,9 +22,43 @@ import retrofit2.Response;
 
 public class MainModel {
     private MovieInt movieInt;
+    private TrailerInt trailerInt;
     private MutableLiveData<List<Results>> responses = new MutableLiveData<>();
     public MutableLiveData<List<Results>> getResponses() {
         return responses;
+    }
+    private void reviewcall(final Results results, int id){
+        Call<ReviewResult> reviewResultCall = movieInt.getreview(id ,BuildConfig.ApiKey);
+        reviewResultCall.enqueue(new Callback<ReviewResult>() {
+            @Override
+            public void onResponse(@NonNull Call<ReviewResult> call, @NonNull Response<ReviewResult> response) {
+                ReviewResult reviewResult = response.body();
+                assert reviewResult != null;
+                results.setReviews(reviewResult.getReviews());
+                Log.e("sam" , "Calling for reviews -" + results.getOriginal_title());
+            }
+            @Override
+            public void onFailure(@NonNull Call<ReviewResult> call, @NonNull Throwable t) {
+            }
+        });
+    }
+    private void videocall(final Results results, int id){
+        Call <VideoResults> videoResultsCall =trailerInt.getvideos(id,BuildConfig.ApiKey);
+        videoResultsCall.enqueue(new Callback<VideoResults>() {
+            @Override
+            public void onResponse(@NonNull Call<VideoResults> call, @NonNull Response<VideoResults> response) {
+                VideoResults videoResults=response.body();
+                assert videoResults!=null;
+                Log.e("samv" , "Calling for videos -" + results.getOriginal_title());
+                List<Videos> videos = videoResults.getVideos();
+                assert videos!=null;
+                results.setVideos(null);
+                Log.e("samv" , " videos are " + response.body());
+            }
+            @Override
+            public void onFailure(@NonNull Call<VideoResults> call, @NonNull Throwable t) {
+            }
+        });
     }
     private Callback<Discover> callbacks=new Callback<Discover>() {
         @Override
@@ -33,19 +70,8 @@ public class MainModel {
             for (final Results gotten:got)
             {
                 int id = gotten.getId();
-                Call<ReviewResult> rr = movieInt.getreview(id ,BuildConfig.ApiKey);
-                rr.enqueue(new Callback<ReviewResult>() {
-                @Override
-                public void onResponse(@NonNull Call<ReviewResult> call, @NonNull Response<ReviewResult> response) {
-                    ReviewResult reviewResult = response.body();
-                    assert reviewResult != null;
-                    gotten.setReviews(reviewResult.getReviews());
-                    Log.e("sam" , "Calling for reviews" + gotten.getOriginal_title());
-                }
-                @Override
-                public void onFailure(@NonNull Call<ReviewResult> call, @NonNull Throwable t) {
-                }
-            });
+                videocall(gotten,id);
+               // reviewcall(gotten,id);
             }
             responses.postValue(got);
         }
@@ -55,6 +81,7 @@ public class MainModel {
     };
     MainModel(){
         movieInt = Moviedbclient.getinstance().create(MovieInt.class);
+        trailerInt = Moviedbclient.getinstance().create(TrailerInt.class);
     }
     public void getToprated(String api_key){
         Log.e("sam", "toprated should be called once");

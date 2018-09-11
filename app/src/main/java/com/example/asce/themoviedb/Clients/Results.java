@@ -75,6 +75,15 @@ public class Results implements Parcelable {
         this.reviews = reviews;
     }
 
+    @TypeConverters(TrailersConvertors.class)
+    private List<Videos> videos;
+    public List<Videos> getVideos() {
+        return videos;
+    }
+    public void setVideos(List<Videos> videos) {
+        this.videos = videos;
+    }
+
     public Results(String original_title, String poster_path, String release_date, String overview, int id, double vote_average){
         this.poster_path = poster_path;
         this.id = id;
@@ -99,6 +108,7 @@ public class Results implements Parcelable {
         dest.writeString(this.overview);
         dest.writeDouble(this.vote_average);
         dest.writeTypedList(this.reviews);
+        dest.writeTypedList(this.videos);
     }
 
     protected Results(Parcel in) {
@@ -109,6 +119,7 @@ public class Results implements Parcelable {
         this.overview = in.readString();
         this.vote_average = in.readDouble();
         this.reviews = in.createTypedArrayList(Reviews.CREATOR);
+        this.videos = in.createTypedArrayList(Videos.CREATOR);
     }
 
     public static final Parcelable.Creator<Results> CREATOR = new Parcelable.Creator<Results>() {
