@@ -22,7 +22,10 @@ import retrofit2.Response;
 
 public class MainModel {
     private MovieInt movieInt;
-    private TrailerInt trailerInt;
+    private MutableLiveData<List<Videos>> video_responces = new MutableLiveData<>();
+    public MutableLiveData<List<Videos>> getVideo_responces() {
+        return video_responces;
+    }
     private MutableLiveData<List<Results>> responses = new MutableLiveData<>();
     public MutableLiveData<List<Results>> getResponses() {
         return responses;
@@ -42,18 +45,18 @@ public class MainModel {
             }
         });
     }
-    private void videocall(final Results results, int id){
-        Call <VideoResults> videoResultsCall =trailerInt.getvideos(id,BuildConfig.ApiKey);
+    public void videocall(int id){
+        Call <VideoResults> videoResultsCall =movieInt.getvideos(id,BuildConfig.ApiKey);
         videoResultsCall.enqueue(new Callback<VideoResults>() {
             @Override
             public void onResponse(@NonNull Call<VideoResults> call, @NonNull Response<VideoResults> response) {
                 VideoResults videoResults=response.body();
                 assert videoResults!=null;
-                Log.e("samv" , "Calling for videos -" + results.getOriginal_title());
+                Log.e("sam" , "raw url is " + response.raw());
+                Log.e("sam" , "The id is " + videoResults.getId());
                 List<Videos> videos = videoResults.getVideos();
                 assert videos!=null;
-                results.setVideos(null);
-                Log.e("samv" , " videos are " + response.body());
+                video_responces.postValue(videos);
             }
             @Override
             public void onFailure(@NonNull Call<VideoResults> call, @NonNull Throwable t) {
@@ -70,8 +73,7 @@ public class MainModel {
             for (final Results gotten:got)
             {
                 int id = gotten.getId();
-                videocall(gotten,id);
-               // reviewcall(gotten,id);
+                reviewcall(gotten,id);
             }
             responses.postValue(got);
         }
@@ -81,7 +83,6 @@ public class MainModel {
     };
     MainModel(){
         movieInt = Moviedbclient.getinstance().create(MovieInt.class);
-        trailerInt = Moviedbclient.getinstance().create(TrailerInt.class);
     }
     public void getToprated(String api_key){
         Log.e("sam", "toprated should be called once");

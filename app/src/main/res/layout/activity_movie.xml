@@ -112,6 +112,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/review_tv"
+            android:gravity="center"
             android:text="@string/Reviews"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
@@ -127,8 +129,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/Trailers"
+            android:gravity="center"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
+            android:visibility="gone"
+            android:id="@+id/trailer_tv"
             />
 
         <android.support.v7.widget.RecyclerView
@@ -138,5 +143,4 @@
 
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>
-
 </android.support.v4.widget.NestedScrollView>

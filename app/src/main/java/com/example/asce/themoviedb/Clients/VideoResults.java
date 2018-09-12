@@ -14,14 +14,9 @@ public class VideoResults {
     public int getId() {
         return id;
     }
-    @SerializedName("videos")
-    private List<Videos> videos;
+    @SerializedName("results")
+    private List<Videos> results;
     public List<Videos> getVideos() {
-        if (videos ==null)
-        {
-            videos = new ArrayList<>();
-            Log.e("sam" , "videos is null");
-        }
-        return videos;
+        return results;
     }
 }

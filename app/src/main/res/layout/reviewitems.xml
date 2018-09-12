@@ -10,7 +10,9 @@
         android:id="@+id/author"
         tools:text="Author"
         tools:visibility="visible"
-        />
+        android:textSize="16sp"
+        android:drawableStart="@drawable/ic_rate_review_black_24dp"
+        android:drawableLeft="@drawable/ic_rate_review_black_24dp" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

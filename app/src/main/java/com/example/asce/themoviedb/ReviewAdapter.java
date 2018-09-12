@@ -11,23 +11,17 @@ import java.util.List;
 
 class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder>{
     private List<Reviews> reviews = null;
-
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.reviewitems , parent,false);
         return new ViewHolder(view);
-
     }
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.movie_reviews.setText(reviews.get(position).getContent());
         holder.author.setText(reviews.get(position).getAuthor());
-
     }
-
     @Override
     public int getItemCount() {
         if (reviews!=null)
@@ -36,7 +30,6 @@ class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder>{
         }
         return 0;
     }
-
     public void setreviews(List<Reviews> reviews) {
         this.reviews = reviews;
         notifyDataSetChanged();

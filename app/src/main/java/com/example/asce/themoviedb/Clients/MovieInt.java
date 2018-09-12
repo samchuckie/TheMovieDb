@@ -16,4 +16,6 @@ public interface MovieInt {
     Call<Discover> popular( @Query("api_key") String apikey);
     @GET("movie/{movie_id}/reviews")
     Call<ReviewResult> getreview(@Path("movie_id") int movie_id,@Query("api_key") String apikey);
+    @GET("movie/{movie_id}/videos")
+    Call<VideoResults> getvideos(@Path("movie_id") int movie_id, @Query("api_key") String apikey);
 }
