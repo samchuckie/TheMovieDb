@@ -27,7 +27,12 @@ import android.widget.Toast;
 import com.example.asce.themoviedb.Clients.MovieInt;
 import com.example.asce.themoviedb.Clients.Moviedbclient;
 import com.example.asce.themoviedb.Clients.Results;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static com.example.asce.themoviedb.Constant.Default;
 import static com.example.asce.themoviedb.Movie.MOVIE_ID;
 
 public class MainActivity extends AppCompatActivity implements DiscoverAdapter.ItemClickListener, DiscoverAdapter.StarredItemClickListener, FavouriteAdapter.unStarredItemClickListener {
@@ -37,14 +42,20 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
     FavouriteAdapter favouriteAdapter;
     Context context;
     SharedPreferences sharedPreferences;
-    MovieInt movieInt;
     String defaultpreference;
-    String api_key,toprated,popular,favourite_pref;
+    String top_rated,favourite_pref,popular;
     ProgressBar progressBar;
     ConnectivityManager connectivityManager;
     MainViewModel mainViewModel;
     MutableLiveData<List<Results>> response;
     LiveData<List<Results>> favourLiveData;
+    private Observer<List<Results>> networkObserver= new Observer<List<Results>>() {
+        @Override
+        public void onChanged(@Nullable List<Results> results) {
+            assert results != null;
+            updates(results);
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,56 +65,47 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
         context = getApplicationContext();
         connectivityManager =(ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         assert connectivityManager != null;
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        api_key = BuildConfig.ApiKey;
-        toprated =getResources().getString(R.string.top_rated);
+        top_rated =getResources().getString(R.string.top_rated);
         popular =getResources().getString(R.string.popular);
         favourite_pref =getResources().getString(R.string.Favourites);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         gridLayoutManager = new GridLayoutManager(context,2);
         sharedPreferences =getPreferences(MODE_PRIVATE);
-        defaultpreference = sharedPreferences.getString("Default", getResources().getString(R.string.defaulter));
-        movieInt = Moviedbclient.getinstance().create(MovieInt.class);
+        defaultpreference = sharedPreferences.getString(Default, getResources().getString(R.string.defaulter));
         discoverAdapter= new DiscoverAdapter(context,this,this );
         favouriteAdapter = new FavouriteAdapter(context,this,this);
         recyclerView.setLayoutManager(gridLayoutManager);
         response = mainViewModel.getResponseLiveData();
-        response.observe(this, new Observer<List<Results>>() {
-            @Override
-            public void onChanged(@Nullable List<Results> discoverResponse) {
-                assert discoverResponse != null;
-                Log.e("sam" , "observing");
-                updates(discoverResponse);
-            }
-        });
         if(defaultpreference.equals(favourite_pref)){
-            Log.e("sam" , "favourite is the preference");
             updateFavourite();
         }
+        Log.e("sam" , "has observers is " + response.hasActiveObservers());
         if (networkInfo != null&& networkInfo.isConnected()) {
             if(defaultpreference.equals(popular)){
-                mainViewModel.getPopular();}
-            else
-                if(defaultpreference.equals(toprated)){
-                mainViewModel.getToprated();
+                // TODO Use a broadcast receiver to check network status after some time
+                mainViewModel.getPopular();
+                Log.e("sam","popular");
             }
             else
-                if(defaultpreference.equals(favourite_pref)){
-                updateFavourite();
+                if(defaultpreference.equals(top_rated)) {
+                    mainViewModel.getToprated();
+                    Log.e("sam", "toprated");
                 }
+            response.observe(this,networkObserver);
         }
         else {
             progressBar.setVisibility(View.GONE);
-            Toast.makeText(this,"No internet connectivty" ,Toast.LENGTH_LONG).show();
+            Toast.makeText(this,getResources().getString(R.string.connecton) ,Toast.LENGTH_LONG).show();
         }
-
+        // TODO SET REMEMBER SCROLL POSITION FOR RECYCLERVIEW
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu ,menu);
         // To set the default preferences and check them
-        if (defaultpreference.equals(toprated)){
+        if (defaultpreference.equals(top_rated)){
             menu.findItem(R.id.top_rated).setChecked(true);
         }
         else if (defaultpreference.equals(popular)){
@@ -116,29 +118,30 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        progressBar.setVisibility(View.VISIBLE);
         int id =item.getItemId();
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if(!item.isChecked()) {
+            progressBar.setVisibility(View.VISIBLE);
             switch (id) {
                 case (R.id.popular):
-                    editor.putString("Default", popular);
+                    editor.putString(Default, popular);
                     editor.apply();
                     item.setChecked(true);
                     mainViewModel.getPopular("change");
+
                     return true;
                 case (R.id.top_rated):
-                    editor.putString("Default", toprated);
+                    editor.putString(Default, top_rated);
                     editor.apply();
                     item.setChecked(true);
                     mainViewModel.getToprated("change");
                     return true;
                 case(R.id.favourite):
-                    editor.putString("Default", favourite_pref);
+                    editor.putString(Default, favourite_pref);
                     editor.apply();
                     item.setChecked(true);
                     updateFavourite();
-
+                    return true;
             }
         }
         return true;
@@ -150,9 +153,16 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
         startActivity(intent);
     }
     public void updates(@NonNull List<Results> response){
-        recyclerView.setAdapter(discoverAdapter);
-        progressBar.setVisibility(View.GONE);
-        discoverAdapter.allitems(response);
+        defaultpreference = sharedPreferences.getString(Default, getResources().getString(R.string.defaulter));
+        Log.e("sam" , "update called");
+        Log.e("sam" , "" + defaultpreference);
+        if(!defaultpreference.equals(favourite_pref)){
+            Log.e("sam" , "update called and defauletr");
+            recyclerView.setAdapter(discoverAdapter);
+            progressBar.setVisibility(View.GONE);
+            discoverAdapter.allitems(response);
+            // TODO FIX THE PICASSO LOADING ISSUE
+        }
     }
     public void updateFavourite()
     {
@@ -170,25 +180,25 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
     @Override
     public void onStarredItemClickListener(Results results) {
         new favouritesAsync(context).execute(results);
-    }
 
+    }
     @Override
     public void onunStarredItemClickListener(final Results results) {
             Delete_frag delete_frag= new Delete_frag();
+            Log.e("sam", "the adapter is " + recyclerView.getAdapter().toString());
             delete_frag.getResults(results);
             delete_frag.show(getSupportFragmentManager(),"Delete");
             favouriteAdapter.notifyDataSetChanged();
-    }
 
+    }
     @SuppressLint("StaticFieldLeak")
-    private static class favouritesAsync extends AsyncTask<Results,Void,Void>{
+    public static class favouritesAsync extends AsyncTask<Results,Void,Void>{
         FavourDao favouritesDao;
-        favouritesAsync(Context context) {
+        public favouritesAsync(Context context) {
              favouritesDao = FavourDatabase.getmFavourDatabase(context).favourDao();
         }
         @Override
         protected Void doInBackground(Results... results) {
-            Log.e("sam" , "background process");
             favouritesDao.insertResult(results[0]);
             return null;
         }

@@ -13,48 +13,56 @@ import com.example.asce.themoviedb.Clients.Videos;
 
 import java.util.List;
 
+import static com.example.asce.themoviedb.Constant.api_key;
+
 public class MainViewModel extends AndroidViewModel {
-    private String apikey;
     private MainModel mainModel;
+    private MutableLiveData<List<Results>> responses = new MutableLiveData<>();
     public MutableLiveData<List<Results>> getResponseLiveData() {
-        Log.e("sam","getting responces ");
-        return mainModel.getResponses();
+        Log.e("sam","getting responses ");
+        responses=mainModel.getResponses();
+        return responses;
     }
+
+    public void setResponses() {
+        responses = null;
+    }
+
     public MutableLiveData<List<Videos>> getVideos(){
         return mainModel.getVideo_responces();
     }
-    public void getTrailers(int id){
+    void getTrailers(int id){
         mainModel.videocall(id);
     }
-    LiveData<List<Results>> favourite = null;
+    LiveData<List<Results>> favourite = new LiveData<List<Results>>() {
+    };
     public MainViewModel(@NonNull Application application) {
         super(application);
-        apikey = BuildConfig.ApiKey;
         mainModel= new MainModel();
     }
     public void getPopular(){
-        //checks to see if a responce was already gotten. if there was a responce then the adapter will use the same data
-        //from the viewmodel and no networl call made
+        //checks to see if a responce was already gotten. if there was a response then the adapter will use the same data
+        //from the viewmodel and no network call made
         if(getResponseLiveData().getValue()==null)
         {
-            mainModel.getPopular(apikey);
+            mainModel.getPopular();
         }
     }
     public void getToprated(){
         if(getResponseLiveData().getValue() == null){
-            mainModel.getToprated(apikey);
+            mainModel.getToprated();
         }
     }
     public LiveData<List<Results>> getFavourite(Context application){
-        if(favourite==null){
             favourite =mainModel.getFavourLiveData(application);
             Log.e("sam", "making a database call everytime");
-        }
-        return favourite;    }
-    public void getToprated(String change) {
-        mainModel.getToprated(apikey);
+
+        return favourite;
     }
-    public void getPopular(String change) {
-        mainModel.getPopular(apikey);
+    void getToprated(String change) {
+        mainModel.getToprated();
+    }
+    void getPopular(String change) {
+        mainModel.getPopular();
     }
 }

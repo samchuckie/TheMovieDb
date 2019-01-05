@@ -15,19 +15,21 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import static com.example.asce.themoviedb.Constant.BASE_IMAGE_URL;
+import static com.example.asce.themoviedb.Constant.size_small;
 
-class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.ViewHolder>{
+public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.ViewHolder>{
 
     private List<Results> results =null;
     private Context context;
     private ItemClickListener itemClickListener;
     private StarredItemClickListener starredItemClickListener;
 
-    DiscoverAdapter(Context context, ItemClickListener itemClickListener, StarredItemClickListener starredItemClickListener)  {
+    public DiscoverAdapter(Context context, ItemClickListener itemClickListener, StarredItemClickListener starredItemClickListener)  {
         this.itemClickListener=itemClickListener;
         this.starredItemClickListener =starredItemClickListener;
         this.context = context;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -37,8 +39,9 @@ class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String poster_path= results.get(position).getPoster_path();
-        Uri uri = Uri.parse( BASE_IMAGE_URL +"/w500/" +  poster_path);
+        Uri uri = Uri.parse( BASE_IMAGE_URL +size_small +  poster_path);
         Picasso.get().load(uri).into(holder.imageView);
+        //TODO SET ERROR
     }
     @Override
     public int getItemCount() {

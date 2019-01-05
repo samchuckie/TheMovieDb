@@ -36,17 +36,26 @@ class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder>{
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView author,movie_reviews;
+        TextView author,movie_reviews,hide_data;
         ViewHolder(View itemView) {
             super(itemView);
             author= itemView.findViewById(R.id.author);
             movie_reviews = itemView.findViewById(R.id.movie_content);
-            itemView.setOnClickListener(this);
+            hide_data = itemView.findViewById(R.id.hide_data);
+            hide_data.setOnClickListener(this);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    movie_reviews.setVisibility(View.VISIBLE);
+                    hide_data.setVisibility(View.VISIBLE);
+                }
+            });
         }
         @Override
         public void onClick(View view) {
-            movie_reviews.setVisibility(View.VISIBLE);
-            author.setVisibility(View.VISIBLE);
+            movie_reviews.setVisibility(View.GONE);
+            hide_data.setVisibility(View.GONE);
+
         }
     }
 }

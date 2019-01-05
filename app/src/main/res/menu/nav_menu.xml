@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/movie_nav"
+            android:title="@string/movie_nav">
+
+        </item>
+        <item
+            android:id="@+id/series_nav"
+            android:title="@string/series_nav">
+        </item>
+    </group>
+
+</menu>

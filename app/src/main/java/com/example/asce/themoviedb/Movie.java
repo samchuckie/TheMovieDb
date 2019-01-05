@@ -21,6 +21,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 import static com.example.asce.themoviedb.Constant.BASE_IMAGE_URL;
 import static com.example.asce.themoviedb.Constant.YOUTUBE_URI;
+import static com.example.asce.themoviedb.Constant.size_small;
 
 public class Movie extends AppCompatActivity implements TrailerAdapter.trailerInterface {
     public static final String MOVIE_ID="movie_id";
@@ -34,11 +35,13 @@ public class Movie extends AppCompatActivity implements TrailerAdapter.trailerIn
     ReviewAdapter reviewAdapter;
     TrailerAdapter trailerAdapter ;
     MainViewModel mainViewModel;
-
+    // ac620851205365b46eddb0c519ccae57
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
+
+        //TODO CHANGE THE PICTURE TO OCCUPY STATUS BAR
         Intent intent =getIntent();
         review_tv = findViewById(R.id.review_tv);
         trailer_tv = findViewById(R.id.trailer_tv);
@@ -61,7 +64,6 @@ public class Movie extends AppCompatActivity implements TrailerAdapter.trailerIn
         LiveData<List<Videos>> listLiveData = mainViewModel.getVideos();
         if(intent!=null && intent.hasExtra(MOVIE_ID)){
             Results results = intent.getParcelableExtra(MOVIE_ID);
-            Log.e("sam" , "name is" + results.getOriginal_title());
             mainViewModel.getTrailers(results.getId());
             updateUi(results);
         }
@@ -81,10 +83,9 @@ public class Movie extends AppCompatActivity implements TrailerAdapter.trailerIn
         user_rating_tx =results.getVote_average();
         release_date_tx=results.getRelease_date();
         poster_path=results.getPoster_path();
-        Uri uri= Uri.parse(BASE_IMAGE_URL + "/w500/" + poster_path);
+        Uri uri= Uri.parse(BASE_IMAGE_URL + size_small + poster_path);
         Picasso.get().load(uri).fit()
                 .into(imageView);
-
         overview.setText(overview_tx);
         original_title.setText(original_title_tx);
         user_rating.setText(new StringBuilder().append(String.valueOf(user_rating_tx)).append("/10").toString());

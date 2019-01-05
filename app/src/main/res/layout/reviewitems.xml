@@ -12,7 +12,9 @@
         tools:visibility="visible"
         android:textSize="16sp"
         android:drawableStart="@drawable/ic_rate_review_black_24dp"
-        android:drawableLeft="@drawable/ic_rate_review_black_24dp" />
+        android:drawableLeft="@drawable/ic_rate_review_black_24dp"
+        android:textStyle="bold|italic"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,5 +23,13 @@
         android:visibility="gone"
         tools:visibility="visible"
         />
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Hide review"
+        android:text="@string/hide_review"
+        android:id="@+id/hide_data"
+        android:textSize="16sp"
+        android:visibility="gone"
+        />
 </LinearLayout>

@@ -21,6 +21,5 @@ public abstract class FavourDatabase extends RoomDatabase{
         }
         return mFavourDatabase;
     }
-
     public abstract FavourDao favourDao();
 }

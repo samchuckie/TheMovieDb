@@ -17,14 +17,14 @@ import java.util.List;
 
 import static com.example.asce.themoviedb.Constant.BASE_IMAGE_URL;
 
-class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder>{
+public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder>{
 
     private List<Results> favourite_list =null;
     private Context context;
     private DiscoverAdapter.ItemClickListener itemClickListener;
     private unStarredItemClickListener unstarredItemClickListener;
 
-    FavouriteAdapter(Context context, DiscoverAdapter.ItemClickListener itemClickListener, unStarredItemClickListener unstarredItemClickListener)  {
+    public FavouriteAdapter(Context context, DiscoverAdapter.ItemClickListener itemClickListener, unStarredItemClickListener unstarredItemClickListener)  {
         this.itemClickListener=itemClickListener;
         this.unstarredItemClickListener =unstarredItemClickListener;
         this.context = context;
@@ -46,7 +46,7 @@ class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder>
     @Override
     public int getItemCount() {
         if(favourite_list==null){
-            Log.e("sam", "null");
+            Log.e("sam", "null favourite");
             return 0;
         }
         return favourite_list.size();
@@ -54,12 +54,13 @@ class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder>
 
     public void allitems(List<Results> results) {
         this.favourite_list = results;
-        Log.e("sam" , "the size is " + results.size());
+        Log.e("sam" , "the size for favourite is " + results.size());
         notifyDataSetChanged();
     }
 
     public interface unStarredItemClickListener {
         void onunStarredItemClickListener(Results results);
+        // TODO CHANGE THE COLOR OF STAR AFTER IT HAS BEEN STARRED
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -67,7 +68,7 @@ class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder>
             @Override
             public void onClick(View view) {
                 Log.e("sam", "deleted an item");
-                // TODO USE DIALOG
+                // TODO DELETE FRAGMENT HAS ERROR. Consider fragment
                 unstarredItemClickListener.onunStarredItemClickListener(favourite_list.get(getAdapterPosition()));
             }
         };

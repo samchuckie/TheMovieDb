@@ -15,5 +15,9 @@
     <string name="Unstar_msg">Do you want to remove this movie from your favourites?</string>
     <string name="Reviews">Review</string>
     <string name="Trailers">Trailers</string>
-    <string name="Space" > </string>
+    <string name="Space"> </string>
+    <string name="connecton">No internet connectivity</string>
+    <string name="hide_review">Hide review</string>
+    <string name="movie_nav">Movies</string>
+    <string name="series_nav">Series</string>
 </resources>
