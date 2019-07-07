@@ -1,4 +1,4 @@
-package com.example.asce.themoviedb;
+package com.example.asce.themoviedb.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -12,6 +12,9 @@ import android.support.v4.app.DialogFragment;
 import android.util.Log;
 
 import com.example.asce.themoviedb.Clients.Results;
+import com.example.asce.themoviedb.Database.FavourDao;
+import com.example.asce.themoviedb.Database.FavourDatabase;
+import com.example.asce.themoviedb.R;
 
 public class Delete_frag extends DialogFragment {
     Results results;

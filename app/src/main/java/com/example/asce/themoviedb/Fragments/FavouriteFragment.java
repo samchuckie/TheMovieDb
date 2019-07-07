@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,35 +16,30 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.asce.themoviedb.Clients.Results;
-import com.example.asce.themoviedb.Delete_frag;
-import com.example.asce.themoviedb.DiscoverAdapter;
-import com.example.asce.themoviedb.FavouriteAdapter;
-import com.example.asce.themoviedb.MainViewModel;
-import com.example.asce.themoviedb.Movie;
+import com.example.asce.themoviedb.Adapters.DiscoverAdapter;
+import com.example.asce.themoviedb.Adapters.FavouriteAdapter;
+import com.example.asce.themoviedb.ViewModel.MainViewModel;
+import com.example.asce.themoviedb.Model.Movie;
 import com.example.asce.themoviedb.R;
 
 import java.util.List;
 
-import static com.example.asce.themoviedb.Movie.MOVIE_ID;
+import static com.example.asce.themoviedb.Model.Movie.MOVIE_ID;
 
 public class FavouriteFragment extends Fragment implements DiscoverAdapter.ItemClickListener, FavouriteAdapter.unStarredItemClickListener {
     RecyclerView recyclerView;
     GridLayoutManager gridLayoutManager;
     FavouriteAdapter favouriteAdapter;
-    private MainViewModel mainViewModel;
     private ProgressBar progressBar;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mainViewModel= ViewModelProviders.of(getActivity()).get(MainViewModel.class);
-        mainViewModel.getFavourite(getContext()).observe(this, new Observer<List<Results>>() {
-            @Override
-            public void onChanged(@Nullable List<Results> results) {
-                Log.e("sam" , "changed calles");
-                assert results != null;
-                favouriteAdapter.allitems(results);
-                progressBar.setVisibility(View.GONE);
-            }
+        MainViewModel mainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+        mainViewModel.getFavourite(getContext()).observe(this, results -> {
+            Log.e("sam" , "changed calles");
+            assert results != null;
+            favouriteAdapter.allitems(results);
+            progressBar.setVisibility(View.GONE);
         });
 
     }

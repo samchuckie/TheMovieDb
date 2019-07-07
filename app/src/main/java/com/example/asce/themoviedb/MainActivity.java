@@ -24,16 +24,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import com.example.asce.themoviedb.Clients.MovieInt;
-import com.example.asce.themoviedb.Clients.Moviedbclient;
-import com.example.asce.themoviedb.Clients.Results;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import com.example.asce.themoviedb.Adapters.DiscoverAdapter;
+import com.example.asce.themoviedb.Adapters.FavouriteAdapter;
+import com.example.asce.themoviedb.Clients.Results;
+import com.example.asce.themoviedb.Database.FavourDao;
+import com.example.asce.themoviedb.Database.FavourDatabase;
+import com.example.asce.themoviedb.Fragments.Delete_frag;
+import com.example.asce.themoviedb.Model.Movie;
+import com.example.asce.themoviedb.ViewModel.MainViewModel;
+
 import java.util.List;
 
 import static com.example.asce.themoviedb.Constant.Default;
-import static com.example.asce.themoviedb.Movie.MOVIE_ID;
+import static com.example.asce.themoviedb.Model.Movie.MOVIE_ID;
 
 public class MainActivity extends AppCompatActivity implements DiscoverAdapter.ItemClickListener, DiscoverAdapter.StarredItemClickListener, FavouriteAdapter.unStarredItemClickListener {
     RecyclerView recyclerView;
@@ -49,12 +53,9 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
     MainViewModel mainViewModel;
     MutableLiveData<List<Results>> response;
     LiveData<List<Results>> favourLiveData;
-    private Observer<List<Results>> networkObserver= new Observer<List<Results>>() {
-        @Override
-        public void onChanged(@Nullable List<Results> results) {
-            assert results != null;
-            updates(results);
-        }
+    private Observer<List<Results>> networkObserver= results -> {
+        assert results != null;
+        updates(results);
     };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements DiscoverAdapter.I
     }
     @Override
     public void onItemClickListener(Results results) {
-        Intent intent = new Intent(this,Movie.class);
+        Intent intent = new Intent(this, Movie.class);
         intent.putExtra(MOVIE_ID,results);
         startActivity(intent);
     }

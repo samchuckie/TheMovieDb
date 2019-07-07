@@ -1,4 +1,4 @@
-package com.example.asce.themoviedb;
+package com.example.asce.themoviedb.Model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;

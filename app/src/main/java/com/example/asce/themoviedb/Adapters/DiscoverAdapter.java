@@ -1,4 +1,4 @@
-package com.example.asce.themoviedb;
+package com.example.asce.themoviedb.Adapters;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.asce.themoviedb.Clients.Results;
+import com.example.asce.themoviedb.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -18,6 +20,8 @@ import static com.example.asce.themoviedb.Constant.BASE_IMAGE_URL;
 import static com.example.asce.themoviedb.Constant.size_small;
 
 public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.ViewHolder>{
+
+    // Do not use null. Instatiate it
 
     private List<Results> results =null;
     private Context context;
@@ -41,12 +45,14 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.ViewHo
         String poster_path= results.get(position).getPoster_path();
         Uri uri = Uri.parse( BASE_IMAGE_URL +size_small +  poster_path);
         Picasso.get().load(uri).into(holder.imageView);
-        //TODO SET ERROR
+        holder.movies_name.setText(results.get(position).getOriginal_title());
+
+        //TODO SET ERROR PLACEHOLDER
     }
     @Override
     public int getItemCount() {
         if(results==null){
-            Log.e("sam", "null");
+            Log.e("sam", "Discover adapter is null");
             return 0;
         }
         return results.size();
@@ -73,10 +79,12 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.ViewHo
         };
         ImageView imageView;
         ImageView stars;
+        TextView movies_name;
         ViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.movieimage);
             stars = itemView.findViewById(R.id.starring);
+            movies_name = itemView.findViewById(R.id.movies_name);
             imageView.setOnClickListener(this);
             stars.setOnClickListener(starred);
         }

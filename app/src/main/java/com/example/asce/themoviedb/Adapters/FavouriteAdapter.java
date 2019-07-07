@@ -1,4 +1,4 @@
-package com.example.asce.themoviedb;
+package com.example.asce.themoviedb.Adapters;
 
 import android.content.Context;
 import android.net.Uri;
@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.asce.themoviedb.Clients.Results;
+import com.example.asce.themoviedb.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -18,7 +20,6 @@ import java.util.List;
 import static com.example.asce.themoviedb.Constant.BASE_IMAGE_URL;
 
 public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder>{
-
     private List<Results> favourite_list =null;
     private Context context;
     private DiscoverAdapter.ItemClickListener itemClickListener;
@@ -41,6 +42,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
         String poster_path= favourite_list.get(position).getPoster_path();
         Uri uri = Uri.parse( BASE_IMAGE_URL +"/w500/" +  poster_path);
         Picasso.get().load(uri).into(holder.imageView);
+        holder.movies_name.setText(favourite_list.get(position).getOriginal_title());
     }
 
     @Override
@@ -69,16 +71,18 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
             public void onClick(View view) {
                 Log.e("sam", "deleted an item");
                 // TODO DELETE FRAGMENT HAS ERROR. Consider fragment
+                // TODO DURING DELETE PREVENT USER CONFIG CHANGE. MAKE IT IN PORTAIT MODE
                 unstarredItemClickListener.onunStarredItemClickListener(favourite_list.get(getAdapterPosition()));
             }
         };
         ImageView imageView;
         ImageView stars;
-
+        TextView movies_name;
         ViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.movieimage);
             stars = itemView.findViewById(R.id.starring);
+            movies_name = itemView.findViewById(R.id.movies_name);
             imageView.setOnClickListener(this);
             stars.setOnClickListener(starred);
         }
@@ -86,7 +90,6 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
         @Override
         public void onClick(View view) {
             itemClickListener.onItemClickListener(favourite_list.get(getAdapterPosition()));
-
         }
     }
 }

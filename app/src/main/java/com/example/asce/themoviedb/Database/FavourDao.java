@@ -1,4 +1,4 @@
-package com.example.asce.themoviedb;
+package com.example.asce.themoviedb.Database;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;

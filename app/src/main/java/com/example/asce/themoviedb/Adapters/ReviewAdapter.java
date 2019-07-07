@@ -1,4 +1,4 @@
-package com.example.asce.themoviedb;
+package com.example.asce.themoviedb.Adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,9 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.example.asce.themoviedb.Clients.Reviews;
+import com.example.asce.themoviedb.R;
+
 import java.util.List;
 
-class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder>{
+public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder>{
     private List<Reviews> reviews = null;
     @NonNull
     @Override
@@ -24,12 +26,9 @@ class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder>{
     }
     @Override
     public int getItemCount() {
-        if (reviews!=null)
-        {
-            return reviews.size();
-        }
-        return 0;
+        return (reviews!=null)?reviews.size():0;
     }
+
     public void setreviews(List<Reviews> reviews) {
         this.reviews = reviews;
         notifyDataSetChanged();
@@ -43,19 +42,15 @@ class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder>{
             movie_reviews = itemView.findViewById(R.id.movie_content);
             hide_data = itemView.findViewById(R.id.hide_data);
             hide_data.setOnClickListener(this);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    movie_reviews.setVisibility(View.VISIBLE);
-                    hide_data.setVisibility(View.VISIBLE);
-                }
+            itemView.setOnClickListener(v -> {
+                movie_reviews.setVisibility(View.VISIBLE);
+                hide_data.setVisibility(View.VISIBLE);
             });
         }
         @Override
         public void onClick(View view) {
             movie_reviews.setVisibility(View.GONE);
             hide_data.setVisibility(View.GONE);
-
         }
     }
 }

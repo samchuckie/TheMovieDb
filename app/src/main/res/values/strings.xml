@@ -20,4 +20,8 @@
     <string name="hide_review">Hide review</string>
     <string name="movie_nav">Movies</string>
     <string name="series_nav">Series</string>
+    <string name="rating_image">Rating image</string>
+    <string name="previous">previous</string>
+    <string name="page">page</string>
+    <string name="next">next</string>
 </resources>

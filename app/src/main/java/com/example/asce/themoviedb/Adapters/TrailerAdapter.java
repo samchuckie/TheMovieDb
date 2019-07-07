@@ -1,4 +1,4 @@
-package com.example.asce.themoviedb;
+package com.example.asce.themoviedb.Adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,13 +8,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.asce.themoviedb.Clients.Videos;
+import com.example.asce.themoviedb.R;
 
 import java.util.List;
 
-class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHolder> {
+public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHolder> {
     private List<Videos> videos = null;
     private trailerInterface tinterface;
-    TrailerAdapter(trailerInterface tinterface){
+    public TrailerAdapter(trailerInterface tinterface){
     this.tinterface =tinterface;
     }
 

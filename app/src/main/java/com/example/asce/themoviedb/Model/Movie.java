@@ -1,11 +1,9 @@
-package com.example.asce.themoviedb;
+package com.example.asce.themoviedb.Model;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +15,10 @@ import android.widget.TextView;
 import com.example.asce.themoviedb.Clients.Results;
 import com.example.asce.themoviedb.Clients.Reviews;
 import com.example.asce.themoviedb.Clients.Videos;
+import com.example.asce.themoviedb.ViewModel.MainViewModel;
+import com.example.asce.themoviedb.R;
+import com.example.asce.themoviedb.Adapters.ReviewAdapter;
+import com.example.asce.themoviedb.Adapters.TrailerAdapter;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 import static com.example.asce.themoviedb.Constant.BASE_IMAGE_URL;
@@ -27,7 +29,7 @@ public class Movie extends AppCompatActivity implements TrailerAdapter.trailerIn
     public static final String MOVIE_ID="movie_id";
     TextView overview ,original_title,release_date,user_rating,review_tv,trailer_tv;
     ImageView imageView;
-    String api_key,original_title_tx,overview_tx,release_date_tx,poster_path;
+    String original_title_tx,overview_tx,release_date_tx,poster_path;
     Double user_rating_tx;
     RecyclerView recyclerView,trailer_rv;
     LinearLayoutManager linearLayoutManager;
@@ -35,7 +37,6 @@ public class Movie extends AppCompatActivity implements TrailerAdapter.trailerIn
     ReviewAdapter reviewAdapter;
     TrailerAdapter trailerAdapter ;
     MainViewModel mainViewModel;
-    // ac620851205365b46eddb0c519ccae57
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,14 +68,11 @@ public class Movie extends AppCompatActivity implements TrailerAdapter.trailerIn
             mainViewModel.getTrailers(results.getId());
             updateUi(results);
         }
-        listLiveData.observe(this, new Observer<List<Videos>>() {
-            @Override
-            public void onChanged(@Nullable List<Videos> videos) {
-                assert videos != null;
-                if(!videos.isEmpty())
-                trailer_tv.setVisibility(View.VISIBLE);
-                trailerAdapter.setVideos(videos);
-            }
+        listLiveData.observe(this, videos -> {
+            assert videos != null;
+            if(!videos.isEmpty())
+            trailer_tv.setVisibility(View.VISIBLE);
+            trailerAdapter.setVideos(videos);
         });
     }
     private void updateUi(Results results) {

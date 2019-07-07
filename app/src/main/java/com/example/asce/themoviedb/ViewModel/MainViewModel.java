@@ -1,4 +1,4 @@
-package com.example.asce.themoviedb;
+package com.example.asce.themoviedb.ViewModel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -10,13 +10,16 @@ import android.util.Log;
 
 import com.example.asce.themoviedb.Clients.Results;
 import com.example.asce.themoviedb.Clients.Videos;
+import com.example.asce.themoviedb.Model.MainModel;
 
 import java.util.List;
 
-import static com.example.asce.themoviedb.Constant.api_key;
-
 public class MainViewModel extends AndroidViewModel {
     private MainModel mainModel;
+    public MainViewModel(@NonNull Application application) {
+        super(application);
+        mainModel= new MainModel();
+    }
     private MutableLiveData<List<Results>> responses = new MutableLiveData<>();
     public MutableLiveData<List<Results>> getResponseLiveData() {
         Log.e("sam","getting responses ");
@@ -24,22 +27,15 @@ public class MainViewModel extends AndroidViewModel {
         return responses;
     }
 
-    public void setResponses() {
-        responses = null;
-    }
-
     public MutableLiveData<List<Videos>> getVideos(){
         return mainModel.getVideo_responces();
     }
-    void getTrailers(int id){
+    public void getTrailers(int id){
         mainModel.videocall(id);
     }
-    LiveData<List<Results>> favourite = new LiveData<List<Results>>() {
+    private LiveData<List<Results>> favourite = new LiveData<List<Results>>() {
     };
-    public MainViewModel(@NonNull Application application) {
-        super(application);
-        mainModel= new MainModel();
-    }
+
     public void getPopular(){
         //checks to see if a responce was already gotten. if there was a response then the adapter will use the same data
         //from the viewmodel and no network call made
@@ -59,10 +55,10 @@ public class MainViewModel extends AndroidViewModel {
 
         return favourite;
     }
-    void getToprated(String change) {
+    public void getToprated(String change) {
         mainModel.getToprated();
     }
-    void getPopular(String change) {
+    public void getPopular(String change) {
         mainModel.getPopular();
     }
 }

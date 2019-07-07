@@ -1,18 +1,20 @@
-package com.example.asce.themoviedb;
+package com.example.asce.themoviedb.Model;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
+import com.example.asce.themoviedb.BuildConfig;
 import com.example.asce.themoviedb.Clients.Discover;
 import com.example.asce.themoviedb.Clients.MovieInt;
 import com.example.asce.themoviedb.Clients.Moviedbclient;
 import com.example.asce.themoviedb.Clients.Results;
 import com.example.asce.themoviedb.Clients.ReviewResult;
-import com.example.asce.themoviedb.Clients.TrailerInt;
 import com.example.asce.themoviedb.Clients.VideoResults;
 import com.example.asce.themoviedb.Clients.Videos;
+import com.example.asce.themoviedb.Database.FavourDatabase;
 
 import java.util.List;
 
@@ -22,21 +24,21 @@ import retrofit2.Response;
 
 import static com.example.asce.themoviedb.Constant.api_key;
 
-class MainModel {
+public class MainModel {
     private MovieInt movieInt;
-    MainModel(){
+    public MainModel(){
         movieInt = Moviedbclient.getinstance().create(MovieInt.class);
     }
     private MutableLiveData<List<Videos>> video_responces = new MutableLiveData<>();
-    MutableLiveData<List<Videos>> getVideo_responces() {
+    public MutableLiveData<List<Videos>> getVideo_responces() {
         return video_responces;
     }
     private MutableLiveData<List<Results>> responses = new MutableLiveData<>();
-    MutableLiveData<List<Results>> getResponses() {
+    public MutableLiveData<List<Results>> getResponses() {
         return responses;
     }
     private void reviewcall(final Results results, int id){
-        Call<ReviewResult> reviewResultCall = movieInt.getreview(id ,BuildConfig.ApiKey);
+        Call<ReviewResult> reviewResultCall = movieInt.getreview(id , BuildConfig.ApiKey);
         reviewResultCall.enqueue(new Callback<ReviewResult>() {
             @Override
             public void onResponse(@NonNull Call<ReviewResult> call, @NonNull Response<ReviewResult> response) {
@@ -53,7 +55,7 @@ class MainModel {
             }
         });
     }
-    void videocall(int id){
+    public void videocall(int id){
         Call <VideoResults> videoResultsCall =movieInt.getvideos(id,BuildConfig.ApiKey);
         videoResultsCall.enqueue(new Callback<VideoResults>() {
             @Override
@@ -89,17 +91,17 @@ class MainModel {
         public void onFailure(@NonNull Call<Discover> call, @NonNull Throwable t) {
         }
     };
-    void getToprated(){
+    public void getToprated(){
         Log.e("sam", "toprated should be called once");
         Call<Discover> toprated= movieInt.toprated(api_key);
         toprated.enqueue(callbacks);
     }
-    void getPopular(){
+    public void getPopular(){
         Log.e("sam", "popular should be called once");
         Call<Discover> popular= movieInt.popular(api_key);
         popular.enqueue(callbacks);
     }
-    LiveData<List<Results>> getFavourLiveData(Context application){
+    public LiveData<List<Results>> getFavourLiveData(Context application){
         return FavourDatabase.getmFavourDatabase(application).favourDao().getFavourites();
     }
 }
