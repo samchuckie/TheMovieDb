@@ -1,6 +1,5 @@
 package com.example.asce.themoviedb.Fragments;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,12 +18,10 @@ import com.example.asce.themoviedb.Clients.Results;
 import com.example.asce.themoviedb.Adapters.DiscoverAdapter;
 import com.example.asce.themoviedb.Adapters.FavouriteAdapter;
 import com.example.asce.themoviedb.ViewModel.MainViewModel;
-import com.example.asce.themoviedb.Model.Movie;
+import com.example.asce.themoviedb.Movie;
 import com.example.asce.themoviedb.R;
 
-import java.util.List;
-
-import static com.example.asce.themoviedb.Model.Movie.MOVIE_ID;
+import static com.example.asce.themoviedb.Movie.MOVIE_ID;
 
 public class FavouriteFragment extends Fragment implements DiscoverAdapter.ItemClickListener, FavouriteAdapter.unStarredItemClickListener {
     RecyclerView recyclerView;

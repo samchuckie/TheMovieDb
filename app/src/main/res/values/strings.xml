@@ -24,4 +24,6 @@
     <string name="previous">previous</string>
     <string name="page">page</string>
     <string name="next">next</string>
+    <string name="movie_image">Movie_image</string>
+    <string name="plot">Plot</string>
 </resources>

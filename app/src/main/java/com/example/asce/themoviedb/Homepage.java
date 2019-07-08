@@ -63,6 +63,7 @@ public class Homepage extends AppCompatActivity {
                 // TODO NODE SERVER IMPLIMENT SUGGESTED LIST USING THIER CLICKS AND FAVOURITES
                 // TODO UNCHECK ALL SETTINGS
                 // TODO FIX STACKED UP FRAGMENTS
+                // TODO introduce mpre specifit icons for reviewes or gather their information through scarping
 
                 if(!item.isChecked()){
                     switch (item_name){

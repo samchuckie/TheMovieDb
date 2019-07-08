@@ -31,13 +31,12 @@ import com.example.asce.themoviedb.Clients.Results;
 import com.example.asce.themoviedb.Database.FavourDao;
 import com.example.asce.themoviedb.Database.FavourDatabase;
 import com.example.asce.themoviedb.Fragments.Delete_frag;
-import com.example.asce.themoviedb.Model.Movie;
 import com.example.asce.themoviedb.ViewModel.MainViewModel;
 
 import java.util.List;
 
 import static com.example.asce.themoviedb.Constant.Default;
-import static com.example.asce.themoviedb.Model.Movie.MOVIE_ID;
+import static com.example.asce.themoviedb.Movie.MOVIE_ID;
 
 public class MainActivity extends AppCompatActivity implements DiscoverAdapter.ItemClickListener, DiscoverAdapter.StarredItemClickListener, FavouriteAdapter.unStarredItemClickListener {
     RecyclerView recyclerView;

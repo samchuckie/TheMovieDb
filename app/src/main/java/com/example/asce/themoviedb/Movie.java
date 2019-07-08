@@ -1,4 +1,4 @@
-package com.example.asce.themoviedb.Model;
+package com.example.asce.themoviedb;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProviders;
@@ -16,7 +16,6 @@ import com.example.asce.themoviedb.Clients.Results;
 import com.example.asce.themoviedb.Clients.Reviews;
 import com.example.asce.themoviedb.Clients.Videos;
 import com.example.asce.themoviedb.ViewModel.MainViewModel;
-import com.example.asce.themoviedb.R;
 import com.example.asce.themoviedb.Adapters.ReviewAdapter;
 import com.example.asce.themoviedb.Adapters.TrailerAdapter;
 import com.squareup.picasso.Picasso;
@@ -37,12 +36,13 @@ public class Movie extends AppCompatActivity implements TrailerAdapter.trailerIn
     ReviewAdapter reviewAdapter;
     TrailerAdapter trailerAdapter ;
     MainViewModel mainViewModel;
+    // TODO REMOVE TRAILER TEXTVIEW IF EMPTY
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie);
+        setContentView(R.layout.activity_spec_movie);
 
-        //TODO CHANGE THE PICTURE TO OCCUPY STATUS BAR
+        //  TODO CHANGE THE PICTURE TO OCCUPY STATUS BAR.Remove actionbar
         Intent intent =getIntent();
         review_tv = findViewById(R.id.review_tv);
         trailer_tv = findViewById(R.id.trailer_tv);
@@ -54,7 +54,7 @@ public class Movie extends AppCompatActivity implements TrailerAdapter.trailerIn
         recyclerView = findViewById(R.id.review_rv);
         trailer_rv =findViewById(R.id.youtube_rv);
         reviewAdapter = new ReviewAdapter();
-        linearLayoutManager= new LinearLayoutManager(this);
+        linearLayoutManager= new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false);
         trailer_manger= new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(reviewAdapter);
@@ -95,10 +95,6 @@ public class Movie extends AppCompatActivity implements TrailerAdapter.trailerIn
         }
         else{review_tv.setVisibility(View.GONE);}
     }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
     @Override
     public void ontrailerClickListener(String key) {
@@ -117,4 +113,3 @@ public class Movie extends AppCompatActivity implements TrailerAdapter.trailerIn
         }
     }
 }
-// TODO MAKE THE ICON FOR WHEN A REVIEW IS NOT CLICKED TO BE DOWNWARDS. ONCLICK UPWARDS

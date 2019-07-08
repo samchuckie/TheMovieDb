@@ -21,7 +21,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     }
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.movie_reviews.setText(reviews.get(position).getContent());
+        //holder.movie_reviews.setText(reviews.get(position).getContent());
         holder.author.setText(reviews.get(position).getAuthor());
     }
     @Override
@@ -34,23 +34,20 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder{
         TextView author,movie_reviews,hide_data;
         ViewHolder(View itemView) {
             super(itemView);
             author= itemView.findViewById(R.id.author);
-            movie_reviews = itemView.findViewById(R.id.movie_content);
-            hide_data = itemView.findViewById(R.id.hide_data);
-            hide_data.setOnClickListener(this);
+
+
+            //TODO IMPLIMENT THE REVIEW DIALOG HERE
+
+
             itemView.setOnClickListener(v -> {
-                movie_reviews.setVisibility(View.VISIBLE);
-                hide_data.setVisibility(View.VISIBLE);
+
+
             });
-        }
-        @Override
-        public void onClick(View view) {
-            movie_reviews.setVisibility(View.GONE);
-            hide_data.setVisibility(View.GONE);
         }
     }
 }
