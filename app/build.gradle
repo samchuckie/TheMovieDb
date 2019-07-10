@@ -58,5 +58,5 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$room_version"
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
     implementation 'com.android.support:cardview-v7:28.0.0-alpha1'
-    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender:0.21'
+    //implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.3'
 }

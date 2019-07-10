@@ -7,12 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.example.asce.themoviedb.Clients.Reviews;
+import com.example.asce.themoviedb.Fragments.ReviewFrag;
 import com.example.asce.themoviedb.R;
-
 import java.util.List;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder>{
     private List<Reviews> reviews = null;
+    private ReviewItemClickListener reviewItemClickListener;
+    public ReviewAdapter(ReviewItemClickListener reviewItemClickListener){
+        this.reviewItemClickListener =reviewItemClickListener;
+
+    }
+
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -23,6 +30,10 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         //holder.movie_reviews.setText(reviews.get(position).getContent());
         holder.author.setText(reviews.get(position).getAuthor());
+    }
+    public interface ReviewItemClickListener {
+        void onunStarredItemClickListener(Reviews reviews);
+        // TODO CHANGE THE COLOR OF STAR AFTER IT HAS BEEN STARRED
     }
     @Override
     public int getItemCount() {
@@ -35,19 +46,17 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        TextView author,movie_reviews,hide_data;
+        private final View.OnClickListener starred = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reviewItemClickListener.onunStarredItemClickListener(reviews.get(getAdapterPosition()));
+            }
+        };
+        TextView author;
         ViewHolder(View itemView) {
             super(itemView);
             author= itemView.findViewById(R.id.author);
-
-
-            //TODO IMPLIMENT THE REVIEW DIALOG HERE
-
-
-            itemView.setOnClickListener(v -> {
-
-
-            });
+            itemView.setOnClickListener(starred);
         }
     }
 }

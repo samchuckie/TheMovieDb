@@ -7,12 +7,14 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         tools:text="Trailer"
-        android:drawableStart="@drawable/ic_play_arrow_black_24dp"
-        android:gravity="center"
+        android:drawableStart="@drawable/youtube"
         android:id="@+id/Trailer_name"
-        android:textSize="20sp"
-        android:drawableLeft="@drawable/ic_play_arrow_black_24dp" />
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:drawablePadding="8dp"
+        android:padding="8dp"
+        />
 
 </LinearLayout>

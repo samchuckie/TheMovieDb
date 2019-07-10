@@ -23,20 +23,14 @@ public class Delete_frag extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.Unstar_msg)
-                .setNegativeButton("No",  new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        onCancel(dialog);
-                    }
-                })
+                .setNegativeButton("No", (dialog, which) -> onCancel(dialog))
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         new deleteResult(getContext()).execute(results);
                     }
                 })
-                .setTitle(R.string.Unstar)
-        ;
+                .setTitle(R.string.Unstar);
         return builder.show();
     }
     public void getResults(Results results) {

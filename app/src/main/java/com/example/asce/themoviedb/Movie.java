@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.asce.themoviedb.Clients.Results;
 import com.example.asce.themoviedb.Clients.Reviews;
 import com.example.asce.themoviedb.Clients.Videos;
+import com.example.asce.themoviedb.Fragments.ReviewFrag;
 import com.example.asce.themoviedb.ViewModel.MainViewModel;
 import com.example.asce.themoviedb.Adapters.ReviewAdapter;
 import com.example.asce.themoviedb.Adapters.TrailerAdapter;
@@ -24,7 +25,7 @@ import static com.example.asce.themoviedb.Constant.BASE_IMAGE_URL;
 import static com.example.asce.themoviedb.Constant.YOUTUBE_URI;
 import static com.example.asce.themoviedb.Constant.size_small;
 
-public class Movie extends AppCompatActivity implements TrailerAdapter.trailerInterface {
+public class Movie extends AppCompatActivity implements TrailerAdapter.trailerInterface, ReviewAdapter.ReviewItemClickListener {
     public static final String MOVIE_ID="movie_id";
     TextView overview ,original_title,release_date,user_rating,review_tv,trailer_tv;
     ImageView imageView;
@@ -53,7 +54,7 @@ public class Movie extends AppCompatActivity implements TrailerAdapter.trailerIn
         user_rating =findViewById(R.id.ur_tv);
         recyclerView = findViewById(R.id.review_rv);
         trailer_rv =findViewById(R.id.youtube_rv);
-        reviewAdapter = new ReviewAdapter();
+        reviewAdapter = new ReviewAdapter(this);
         linearLayoutManager= new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false);
         trailer_manger= new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -111,5 +112,12 @@ public class Movie extends AppCompatActivity implements TrailerAdapter.trailerIn
         if (youtube_intent .resolveActivity(getPackageManager()) != null) {
             startActivity(chooser);
         }
+    }
+
+    @Override
+    public void onunStarredItemClickListener(Reviews reviews) {
+        ReviewFrag reviewFrag = new ReviewFrag();
+        reviewFrag.setReview(reviews);
+        reviewFrag.show(getSupportFragmentManager(),"Review");
     }
 }

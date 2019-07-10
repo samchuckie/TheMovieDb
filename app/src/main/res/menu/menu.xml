@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:title="@string/previous"
-        android:id="@+id/previous"
-        android:icon="@drawable/ic_chevron_left_black_24dp"
-        app:showAsAction="always">
-    </item>
-    <item
-        android:title="@string/page"
-        android:id="@+id/page"
-        app:showAsAction="always">
-    </item>
-    <item
-        android:title="@string/next"
-        android:id="@+id/next"
-        android:icon="@drawable/ic_navigate_next_black_24dp"
-        app:showAsAction="always">
-    </item>
+    <!--<item-->
+        <!--android:title="@string/previous"-->
+        <!--android:id="@+id/previous"-->
+        <!--android:icon="@drawable/ic_chevron_left_black_24dp"-->
+        <!--app:showAsAction="always">-->
+    <!--</item>-->
+    <!--<item-->
+        <!--android:title="@string/page"-->
+        <!--android:id="@+id/page"-->
+        <!--app:showAsAction="always">-->
+    <!--</item>-->
+    <!--<item-->
+        <!--android:title="@string/next"-->
+        <!--android:id="@+id/next"-->
+        <!--android:icon="@drawable/ic_navigate_next_black_24dp"-->
+        <!--app:showAsAction="always">-->
+    <!--</item>-->
 
     <group android:checkableBehavior="single"
         >
